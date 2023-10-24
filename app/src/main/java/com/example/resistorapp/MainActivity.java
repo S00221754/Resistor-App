@@ -21,20 +21,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    //EditText band1, band2, bandMulti, bandTol;
+
     Spinner spinB1, spinB2, spinM, spinT;
-    TextView Result;
+    TextView Result, band1, band2, bandMulti, bandTol;
     Button btnCalc, Reset;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //logic
         spinB1 = findViewById(R.id.Band1);
         spinB2 = findViewById(R.id.band2);
         spinM = findViewById(R.id.band3);
         spinT = findViewById(R.id.band4);
         Result = findViewById(R.id.Result);
         Reset = findViewById(R.id.btnReset);
+
+        //image
+        band1 = findViewById(R.id.rectband1);
+        band2 = findViewById(R.id.rectband2);
+        bandMulti = findViewById(R.id.rectM);
+        bandTol = findViewById(R.id.rectTol3);
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, getResources().getTextArray(R.array.Bands)) {
             @NonNull
             @Override
@@ -42,6 +49,14 @@ public class MainActivity extends AppCompatActivity {
             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 view.setBackgroundColor(ItemBackgroundBand(position));
+                if (parent == spinB1)
+                {
+                    band1.setBackgroundColor(ItemBackgroundBand(position));
+                }
+                else
+                {
+                    band2.setBackgroundColor(ItemBackgroundBand(position));
+                }
                 return view;
             }
             //to set the background color of the other items
@@ -61,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 view.setBackgroundColor(ItemBackgroundMulti(position));
+                bandMulti.setBackgroundColor(ItemBackgroundMulti(position));
                 return view;
             }
             //to set the background color of the other items
@@ -80,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 view.setBackgroundColor(ItemBackgroundTol(position));
+                bandTol.setBackgroundColor(ItemBackgroundTol(position));
                 return view;
             }
             //to set the background color of the other items
