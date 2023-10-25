@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    //declaring views
     Spinner spinB1, spinB2, spinM, spinT;
     TextView Result, band1, band2, bandMulti, bandTol;
     Button btnCalc, Reset;
@@ -49,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 view.setBackgroundColor(ItemBackgroundBand(position));
+                //To make the item with a background of black to be font color white for easier readability
+                if(position == 1)
+                {
+                    ((TextView) view).setTextColor(Color.WHITE);
+                }
+                //to differentiate between the bands in the image.
                 if (parent == spinB1)
                 {
                     band1.setBackgroundColor(ItemBackgroundBand(position));
@@ -57,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     band2.setBackgroundColor(ItemBackgroundBand(position));
                 }
+
                 return view;
             }
             //to set the background color of the other items
@@ -64,11 +72,17 @@ public class MainActivity extends AppCompatActivity {
             public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
                 View view = super.getDropDownView(position, convertView, parent);
                 view.setBackgroundColor(ItemBackgroundBand(position));
+                //makes the item with a black background more readable.
+                if(position == 1)
+                {
+                    ((TextView) view).setTextColor(Color.WHITE);
+                }
                 return view;
             }
         };
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //separate adapter due to different available colors
         ArrayAdapter adapter2 = new ArrayAdapter(this, android.R.layout.simple_spinner_item, getResources().getTextArray(R.array.Multiplier)) {
             @NonNull
             @Override
@@ -77,6 +91,11 @@ public class MainActivity extends AppCompatActivity {
                 View view = super.getView(position, convertView, parent);
                 view.setBackgroundColor(ItemBackgroundMulti(position));
                 bandMulti.setBackgroundColor(ItemBackgroundMulti(position));
+                view.setBackgroundColor(ItemBackgroundMulti(position));
+                if(position == 1)
+                {
+                    ((TextView) view).setTextColor(Color.WHITE);
+                }
                 return view;
             }
             //to set the background color of the other items
@@ -84,6 +103,10 @@ public class MainActivity extends AppCompatActivity {
             public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
                 View view = super.getDropDownView(position, convertView, parent);
                 view.setBackgroundColor(ItemBackgroundMulti(position));
+                if(position == 1)
+                {
+                    ((TextView) view).setTextColor(Color.WHITE);
+                }
                 return view;
             }
         };
@@ -109,33 +132,39 @@ public class MainActivity extends AppCompatActivity {
         };
         adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        //set adapters to each spinner
         spinB1.setAdapter(adapter);
         spinB2.setAdapter(adapter);
         spinM.setAdapter(adapter2);
         spinT.setAdapter(adapter3);
 
+
+        //event listener for when the calculate button is pressed
         btnCalc = findViewById(R.id.btnCalculate);
         btnCalc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int b1,b2,m, resistance; String t;
-
+                //Gets and sets the values for the calculation
                 b1 = BandColor(spinB1.getSelectedItem().toString());
                 b2 = BandColor(spinB2.getSelectedItem().toString());
                 m = BandMulti(spinM.getSelectedItem().toString());
                 t = BandTolerance(spinT.getSelectedItem().toString());
+                //if no multiplier is picked
                 if (m == 0){
                     resistance = b1 + b2;
                 }
+                //method when a multiplier is picked
                 else {
                     resistance = ((b1 * m) + b2) * m;
                 }
-
+                //sets the text of teh Result view with the message.
                 Result.setText(String.valueOf(resistance) + "Ω " + t);
 
             }
         });
     }
+    //Method for background color of the first two bands
     private int ItemBackgroundBand(int position) {
         int[] colors = {R.color.black, R.color.black, R.color.brown, R.color.red, R.color.orange, R.color.yellow,
                 R.color.green, R.color.blue, R.color.violet, R.color.gray, R.color.white};
@@ -148,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
             return Color.TRANSPARENT;
         }
     }
+    //Method for the multi band color
     private int ItemBackgroundMulti(int position) {
         int[] colors = {R.color.black, R.color.black, R.color.brown, R.color.red, R.color.orange, R.color.yellow,
                 R.color.green, R.color.blue, R.color.violet, R.color.gray, R.color.white, R.color.gold, R.color.silver};
@@ -160,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
             return Color.TRANSPARENT;
         }
     }
+    //Method for the tolerance band color
     private int ItemBackgroundTol(int position) {
         int[] colors = {R.color.brown, R.color.brown, R.color.red,
                 R.color.green, R.color.blue, R.color.violet, R.color.gray, R.color.gold, R.color.silver};
@@ -172,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
             return Color.TRANSPARENT;
         }
     }
+    //Resets all spinners and result
     public void reset(View v){
 
         spinB1.setSelection(0);
@@ -180,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         spinM.setSelection(0);
         Result.setText("");
     }
-
+    //sets the value depending on what band has been picked
     public Integer BandColor(String color){
         Integer band;
         switch (color){
@@ -219,6 +251,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return band;
     }
+    //assigning a number depending on what multi has been picked
     public Integer BandMulti(String color){
         Integer band;
 
@@ -264,6 +297,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return band;
     }
+    //sets a tolerance on what has been picked
     public String BandTolerance(String color){
         String tolerance;
 
