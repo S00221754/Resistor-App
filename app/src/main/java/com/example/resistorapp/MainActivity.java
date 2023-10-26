@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
     //declaring views
     Spinner spinB1, spinB2, spinM, spinT;
     TextView Result, band1, band2, bandMulti, bandTol;
@@ -156,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //method when a multiplier is picked
                 else {
-                    resistance = ((b1 * m) + b2) * m;
+                    resistance = ((b1 * 10) + b2) * m;
                 }
                 //sets the text of teh Result view with the message.
                 Result.setText(String.valueOf(resistance) + "Ω " + t);
